@@ -55,6 +55,23 @@ abstract class AbstractService extends BaseAbstractService implements ServiceInt
         parent::__construct($credentials, $httpClient, $storage);
         $this->stateParameterInAuthUrl = $stateParameterInAutUrl;
 
+        $this->setScopes($scopes);
+
+        $this->baseApiUri = $baseApiUri;
+
+        $this->apiVersion = $apiVersion;
+    }
+
+    /**
+     * Sets the scopes
+     *
+     * @param array $scopes
+     *
+     * @return AbstractService
+     * @throws InvalidScopeException if one of the given scopes is invalid
+     */
+    public function setScopes(array $scopes = array())
+    {
         foreach ($scopes as $scope) {
             if (!$this->isValidScope($scope)) {
                 throw new InvalidScopeException('Scope ' . $scope . ' is not valid for service ' . get_class($this));
@@ -63,9 +80,17 @@ abstract class AbstractService extends BaseAbstractService implements ServiceInt
 
         $this->scopes = $scopes;
 
-        $this->baseApiUri = $baseApiUri;
+        return $this;
+    }
 
-        $this->apiVersion = $apiVersion;
+    /**
+     * Retrieves the (valid) scopes
+     *
+     * @return array
+     */
+    public function getScopes()
+    {
+        return $this->scopes;
     }
 
     /**
