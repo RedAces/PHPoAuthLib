@@ -285,7 +285,7 @@ class EveOnline extends AbstractService
 
         $token = new StdOAuth2Token();
         $token->setAccessToken($data['access_token']);
-        $token->setLifeTime($data['expires_in']);
+        $token->setLifetime($data['expires_in']);
 
         if (isset($data['refresh_token'])) {
             $token->setRefreshToken($data['refresh_token']);
